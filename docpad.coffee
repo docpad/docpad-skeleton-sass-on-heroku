@@ -14,12 +14,6 @@ docpadConfig = {
 			# The production url of our website
 			url: "http://website.com"
 
-			# Here are some old site urls that you would like to redirect from
-			oldUrls: [
-				'www.website.com',
-				'website.herokuapp.com'
-			]
-
 			# The default title of our website
 			title: "Your Website"
 
@@ -60,32 +54,12 @@ docpadConfig = {
 
 
 	# =================================
-	# DocPad Events
+	# DocPad Plugins
 
-	# Here we can define handlers for events that DocPad fires
-	# You can find a full listing of events on the DocPad Wiki
-	events:
+	plugins:
+		sass:
+			compass: true
 
-		# Server Extend
-		# Used to add our own custom routes to the server before the docpad routes are added
-		serverExtend: (opts) ->
-			# Extract the server from the options
-			{server} = opts
-			docpad = @docpad
-
-			# As we are now running in an event,
-			# ensure we are using the latest copy of the docpad configuraiton
-			# and fetch our urls from it
-			latestConfig = docpad.getConfig()
-			oldUrls = latestConfig.templateData.site.oldUrls or []
-			newUrl = latestConfig.templateData.site.url
-
-			# Redirect any requests accessing one of our sites oldUrls to the new site url
-			server.use (req,res,next) ->
-				if req.headers.host in oldUrls
-					res.redirect(newUrl+req.url, 301)
-				else
-					next()
 }
 
 # Export our DocPad Configuration
